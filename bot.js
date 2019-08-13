@@ -56,3 +56,23 @@ client.on("ready", () => { //봇이 온라인 상태로 전환될시(모든 작�
     st(); 
     setInterval(() => st(), 7500); //7.5초(자스에서는 밀리초를 사용해서 그럽니다.)마다 플레이중 변경
 })
+
+
+client.on("message", async message => {
+    if(message.system) return //해당 메세지가 시스템(유저가 들어올때 시스템 메세지 뜨는거요) 메세지일시 평상시로 돌아감(리턴)
+    if(message.author.bot) return //해당 메세지를 쓴 유저가 봇일시 리턴
+    if(!message.content.startsWith(process.env.PREFIX)) return //메세지가 설정한 접두사로 시작하지 않을시 리턴
+    if(message.channel.type === "dm") return //메세지를 쓴 채널이 디엠일시 리턴
+
+    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g) //메세지에서 접두사의 글자수 만큼 시작 부분 제거 후, 공백 제거, split로 메세지를 Array화
+    const command = args.shift().toLowerCase() //그렇게 만들어진 Array에서 첫부분을 shift()로 추출하고(shift()는 pop()와 반대로 제일 처음을 가져옵니다)) 그 추출한 메세지를 소문자화
+
+    if(client.commands.get(command)) { //만약 아까 전에 생성한 commands 컬렉션에 해당 command가 존재할시:
+        client.commands.get(command).run(client, message, args) //해당 컬렉션 명령어 파일에 client, message, args를 전달 후 실행 
+    }
+
+    if(client.aliases.get(command)) { //만약 아까 전에 생성한 aliases 컬렉션에 해당 alias가 존재할시:
+        client.aliases.get(command).run(client, message, args) //해당 컬렉션 명령어 파일에 client, message, args를 전달 후 실행 
+    }
+})
+client.login(process.env.TOKEN) //봇 로그인
