@@ -1,3 +1,5 @@
+require("dotenv").config() 
+
 const Discord = require("discord.js") //Discord.js 모듈 불러오기
 const client = new Discord.Client() //클라이언트(봇) 생성
 const fs = require("fs") //파일 리더기
