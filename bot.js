@@ -11,7 +11,7 @@ client.aliases = new Discord.Collection() //클라이언트 내에 aliases 컬�
 fs.readdir("./commands/", (err, files) => { //./commands 디렉터리 내의 파일들을 읽기 시작
     if(err) { //오류 시:
         console.error(err) //콘솔에 출력
-        return process.exit() //프로세스 종료 **호스팅 중에 문제가 생길만한거는 프로세스를 종료하는게 낮습니다
+        return process.exit() //프로세스 종료 **호스팅 중에 문제가 생길만한거는 프로세스를 종료하는게 낫습니다
     }
 
     let filesFilter = files.filter(f => f.split(".").pop() === "js") //파일 이름을 .을 제거 후 Array화, 후에 pop()으로 마지막 Array 스트링를 추출해 js로 끝나는 파일들만 필터링해서 가져오기
